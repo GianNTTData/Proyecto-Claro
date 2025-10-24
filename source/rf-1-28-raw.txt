@@ -1,0 +1,153 @@
+RF 1.28 (PS) Pantalla de Configuración
+RF 0 «Requerimiento Funcional» in package 'Requerimientos Funcionales'
+
+Pantalla de Configuración
+
+RF 1.28 (PS) Pantalla de Configuración 
+Version 1.0  Phase 1.0  SIN CAMBIO
+John Castillo Rivera created on 15/01/2025.  Last modified 6/10/2025
+RF 1.28 (PS)  Pantalla de Configuración
+
+Descripción: Pantalla diseñada para configurar las opciones generales y parámetros necesarios para el funcionamiento del sistema.
+
+Objetivo: Proveer una herramienta que permita gestionar y personalizar las configuraciones generales del sistema.
+
+Propuesta de Solución: Desarrollar pantallas que permita definir y ajustar las opciones generales del sistema para su administración.
+
+
+1.28.1 Mantenimiento de Motivos
+
+Descripción: El mantenimiento de motivos permite a los usuarios gestionar los diferentes motivos de devolución.
+
+Objetivo: Establecer una pantalla y funcionalidad que permita la administración de los motivos de devolución, incluyendo su creación, modificación y consulta.
+
+Propuesta de Solución: Se debe desarrollar una pantalla dentro del sistema que permita la ejecución y administración de los motivos de devolución.
+
+Listado de Motivo de Devolución 
+
+La pantalla incluirá los siguientes filtros de búsqueda:
+
+•	Descripción del motivo (Tipo texto)
+•	Estado (Activo/Inactivo).
+•	Botón "Buscar" para ejecutar la consulta de motivo de devolución.
+
+La pantalla debe contar con la opción de búsqueda a través del botón “Buscar” que se realiza mediante el servicio definido en el RF 1.17(PS) Configuración de sistema sección 1.17.1 Consultar motivo.
+
+Para realizar la búsqueda, el usuario debe seleccionar y/o ingresar los criterios de búsqueda y presionar el botón “Buscar”, considerando los filtros de búsqueda y adicionalmente el almacén obtenido de la sesión del usuario.
+
+Los resultados de la búsqueda se mostrarán en una tabla con las siguientes columnas:
+
+•	Descripción del motivo de devolución.
+•	Estado.
+•	Acciones (Editar).
+
+En la pantalla también se mostrará el botón “Agregar”, que permite registrar un nuevo motivo de devolución.
+
+[Imagen 1.png] 
+
+Agregar Motivo de Devolución Al pulsar el botón "Agregar", se abrirá una ventana emergente con la siguiente información:
+
+•	Descripción del motivo (Campo de texto, obligatorio).
+•	Estado (Activo, Inactivo).
+•	Botón “Guardar” para ejecutar la validación y el registro del motivo de devolución.
+
+[Imagen 2.png] 
+
+Una vez realizado el registro, se mostrará el mensaje: "Registro realizado satisfactoriamente". El sistema registrará la operación mediante el servicio definido en el RF 1.17(PS) Configuración de sistema sección 1.17.2 Registrar motivo.
+
+Editar Motivo de Devolución 
+
+Al pulsar el botón "Editar", se abrirá una ventana emergente con la siguiente información:
+
+•	Descripción del motivo (Campo de texto, obligatorio).
+•	Estado (Activo, Inactivo).
+•	Botón “Guardar” para ejecutar la validación y el registro del motivo.
+
+Una vez realizado el registro del motivo, se mostrará el mensaje: "Registro realizado satisfactoriamente". El sistema registrará la operación mediante el servicio definido en el RF 1.17(PS) Configuración de sistema sección 1.17.3 Actualizar motivo.
+
+[Imagen 3.png] 
+
+Criterios de Aceptación
+
+•	Notificaciones claras al usuario sobre el resultado de cada acción.
+
+1.28.2 Parámetros
+
+Entre los parámetros a configurar:
+
+Tiempo de reserva de mercadería: Permite configurar la vigencia para una reserva de mercadería. Para consultar los parámetros se realiza mediante el servicio del RF 1.17 (PS) Configuración de sistema sección 1.17.4 Consultar parámetros
+
+•	Cantidad: (tipo numérico, combinación de números positivos).
+•	Unidad de medida: (Dropdown, lista de opciones: Minutos, horas, días).
+
+Tiempo de bloqueo de mercadería:  Permite configurar la vigencia para un bloqueo de mercadería.
+
+•	Cantidad: (tipo numérico, combinación de números positivos).
+•	Unidad de medida: (Dropdown, lista de opciones: Minutos, horas, días).
+
+Para registrar la configuración, se pulsa el botón “Guardar Configuración” mediante el servicio RF 1.17(PS) Configuración de sistema sección 1.17.5 Registrar parámetros y 1.17.6 Actualizar parámetros.
+
+[Imagen 4.png] 
+
+Criterio de aceptación
+
+La pantalla debe permitir configurar y guardar correctamente las opciones generales del sistema, validar datos ingresados, reflejar cambios en tiempo real.
+
+
+OUTGOING STRUCTURAL RELATIONSHIPS
+
+   Asociación «Asociación» from «Requerimiento Funcional» RF 1.28 (PS) Pantalla de Configuración to «Objetivo Estratégico» Acelerar la transformación digital
+[ Direction is 'Origen -> Destino'. ]
+
+
+   SequenceFlow «Asociación» from «Requerimiento Funcional» RF 1.28 (PS) Pantalla de Configuración to «Aplicación» Pantalla-Configuración_Motivos
+[ Direction is 'Origen -> Destino'. ]
+
+
+   Asociación «Asociación» from «Requerimiento Funcional» RF 1.28 (PS) Pantalla de Configuración to «Aplicación» Pantalla-Configuracion_Parametros
+[ Direction is 'Origen -> Destino'. ]
+
+
+INCOMING STRUCTURAL RELATIONSHIPS
+
+   Realization  from «Requerimiento Funcional» RF 1.12 Implementar un Sistema de Logística y Stock to «Requerimiento Funcional» RF 1.28 (PS) Pantalla de Configuración
+[ Direction is 'Origen -> Destino'. ]
+
+
+CONNECTORS
+
+   Asociación  «Asociación»      Origen -> Destino
+From:	RF 1.28 (PS) Pantalla de Configuración : RF 0, Public  
+To:	Acelerar la transformación digital : Objetivo Estratégico , Public  
+
+
+   SequenceFlow  «Asociación»      Origen -> Destino
+From:	RF 1.28 (PS) Pantalla de Configuración : RF 0, Public  
+To:	Pantalla-Configuración_Motivos : Application Component Name , Public  
+
+
+   Asociación  «Asociación»      Origen -> Destino
+From:	RF 1.28 (PS) Pantalla de Configuración : RF 0, Public  
+To:	Pantalla-Configuracion_Parametros : Application Component Name , Public  
+
+
+ASSOCIATIONS
+
+   Asociación (direction: Origen -> Destino)  «Asociación»
+
+Source: Public (RF 0) RF 1.28 (PS) Pantalla de Configuración «Requerimiento Funcional»
+	Target: Public (Objetivo Estratégico ) Acelerar la transformación digital «Objetivo Estratégico»
+
+
+   SequenceFlow (direction: Origen -> Destino)  «Asociación,SequenceFlow»
+
+Source: Public (RF 0) RF 1.28 (PS) Pantalla de Configuración «Requerimiento Funcional»
+	Target: Public (Application Component Name ) Pantalla-Configuración_Motivos «Aplicación»
+
+
+   Asociación (direction: Origen -> Destino)  «Asociación»
+
+Source: Public (RF 0) RF 1.28 (PS) Pantalla de Configuración «Requerimiento Funcional»
+	Target: Public (Application Component Name ) Pantalla-Configuracion_Parametros «Aplicación»
+
+

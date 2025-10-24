@@ -1,0 +1,152 @@
+<div class="parametros-container">
+  <h1>Configuración de Parámetros</h1>
+
+  <!-- Mensajes -->
+  <div class="mensajes">
+    <div *ngIf="mensajeExito" class="alerta alerta-exito">
+      {{ mensajeExito }}
+    </div>
+    <div *ngIf="mensajeError" class="alerta alerta-error">
+      {{ mensajeError }}
+    </div>
+  </div>
+
+  <!-- Cargando -->
+  <div *ngIf="cargando" class="cargando">
+    Cargando configuración...
+  </div>
+
+  <!-- Formulario de Configuración -->
+  <form *ngIf="!cargando" class="formulario-parametros">
+    <!-- Tiempo de Reserva de Mercadería -->
+    <div class="seccion-parametro">
+      <h2>Tiempo de Reserva de Mercadería</h2>
+      <p class="descripcion-parametro">
+        Permite configurar la vigencia para una reserva de mercadería
+      </p>
+
+      <div class="campos-grid">
+        <div class="campo-formulario">
+          <label for="reservaCantidad">
+            Cantidad <span class="campo-requerido">*</span>
+          </label>
+          <input
+            type="number"
+            id="reservaCantidad"
+            name="reservaCantidad"
+            [(ngModel)]="tiempoReserva.cantidad"
+            min="1"
+            step="1"
+            required
+            class="input-numero"
+            [class.input-error]="errores.reservaCantidad"
+            (keypress)="validarNumero($event)"
+            placeholder="Ingrese cantidad"
+            data-test="input-reserva-cantidad"
+          />
+          <span *ngIf="errores.reservaCantidad" class="mensaje-error">
+            {{ errores.reservaCantidad }}
+          </span>
+        </div>
+
+        <div class="campo-formulario">
+          <label for="reservaUnidad">
+            Unidad de medida <span class="campo-requerido">*</span>
+          </label>
+          <select
+            id="reservaUnidad"
+            name="reservaUnidad"
+            [(ngModel)]="tiempoReserva.unidadMedida"
+            required
+            class="input-select"
+            [class.input-error]="errores.reservaUnidad"
+            data-test="select-reserva-unidad"
+          >
+            <option
+              *ngFor="let unidad of unidadesMedida"
+              [ngValue]="unidad.valor"
+            >
+              {{ unidad.etiqueta }}
+            </option>
+          </select>
+          <span *ngIf="errores.reservaUnidad" class="mensaje-error">
+            {{ errores.reservaUnidad }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- Tiempo de Bloqueo de Mercadería -->
+    <div class="seccion-parametro">
+      <h2>Tiempo de Bloqueo de Mercadería</h2>
+      <p class="descripcion-parametro">
+        Permite configurar la vigencia para un bloqueo de mercadería
+      </p>
+
+      <div class="campos-grid">
+        <div class="campo-formulario">
+          <label for="bloqueoCantidad">
+            Cantidad <span class="campo-requerido">*</span>
+          </label>
+          <input
+            type="number"
+            id="bloqueoCantidad"
+            name="bloqueoCantidad"
+            [(ngModel)]="tiempoBloqueo.cantidad"
+            min="1"
+            step="1"
+            required
+            class="input-numero"
+            [class.input-error]="errores.bloqueoCantidad"
+            (keypress)="validarNumero($event)"
+            placeholder="Ingrese cantidad"
+            data-test="input-bloqueo-cantidad"
+          />
+          <span *ngIf="errores.bloqueoCantidad" class="mensaje-error">
+            {{ errores.bloqueoCantidad }}
+          </span>
+        </div>
+
+        <div class="campo-formulario">
+          <label for="bloqueoUnidad">
+            Unidad de medida <span class="campo-requerido">*</span>
+          </label>
+          <select
+            id="bloqueoUnidad"
+            name="bloqueoUnidad"
+            [(ngModel)]="tiempoBloqueo.unidadMedida"
+            required
+            class="input-select"
+            [class.input-error]="errores.bloqueoUnidad"
+            data-test="select-bloqueo-unidad"
+          >
+            <option
+              *ngFor="let unidad of unidadesMedida"
+              [ngValue]="unidad.valor"
+            >
+              {{ unidad.etiqueta }}
+            </option>
+          </select>
+          <span *ngIf="errores.bloqueoUnidad" class="mensaje-error">
+            {{ errores.bloqueoUnidad }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón Guardar -->
+    <div class="acciones-principales">
+      <button
+        type="button"
+        class="btn btn-exito btn-grande"
+        (click)="guardarConfiguracion()"
+        [disabled]="guardando"
+        data-test="guardar-parametros"
+      >
+        {{ guardando ? 'Guardando...' : 'Guardar Configuración' }}
+      </button>
+    </div>
+  </form>
+</div>

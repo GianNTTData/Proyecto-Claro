@@ -1,0 +1,541 @@
+
+RF 1.17 (PS) Configuracion de Sistema
+RF 0 «Requerimiento Funcional» in package 'Requerimientos Funcionales'
+
+Configuracion de Sistema
+
+RF 1.17 (PS) Configuracion de Sistema 
+Version 1.0  Phase 1.0  SIN CAMBIO
+John Castillo Rivera created on 13/01/2025.  Last modified 6/10/2025
+RF 1.17 (PS) Configuración de Sistema
+
+Descripción: Crear un servicio que permita la configuración de parámetros del sistema.
+
+Objetivo: Establecer un componente que permita configuración de parámetros de operación del sistema.
+
+Propuesta de Solución: Crear una API que configure los parámetros de la aplicación, recibiendo un tipo de transacción y los campos correspondientes a la configuración.
+
+Flujo del proceso
+
+
+1.17.1 Consultar motivo
+
+Descripción: Crear una funcionalidad que permita traer la información de los motivos registrados en el sistema.
+
+Objetivo: Establecer una funcionalidad que permita la consulta de los motivos registrados en el sistema.
+
+Propuesta de Solución: Crear una funcionalidad en la API que permita la consulta de motivos.
+
+Flujo del proceso
+
+Recepción y Validación de Solicitud:
+
+Los campos de búsqueda serán los siguientes:
+
+•	Nombre del motivo: Opcional.
+•	Estado de motivo: Opcional.
+
+Procesamiento de la solución:
+
+El servicio una vez que realizó la validación y recepción de la información realizará las siguientes acciones:
+
+•	Consulta la información de los motivos registrados.
+
+Finalizado el proceso, el sistema informará en la respuesta el resultado de la consulta.
+
+Presentación de los resultados
+
+La respuesta obtenida como resultado de la consulta será la siguiente:
+
+•	Identificación del motivo: Obligatorio.	
+•	Nombre del motivo: Obligatorio.
+•	Estado del motivo: Obligatorio.
+
+Criterio de aceptación
+
+La API deberá validar los datos de entrada, consultar y devolver la información, asegurando un manejo adecuado de errores HTTP.
+
+1.17.2 Registrar motivo
+
+Descripción: Crear una funcionalidad que permita ingresar la información del motivo en el sistema.
+
+Objetivo: Establecer una funcionalidad que permita registrar el motivo en el sistema.
+
+Propuesta de Solución: Crear una funcionalidad en la API que permita el registro del motivo en el sistema.
+
+Flujo del proceso
+
+Recepción y Validación de Solicitud:
+
+Los campos requeridos serán los siguientes:
+
+•	Nombre de motivo: Obligatorio.
+•	Estado del motivo: Obligatorio.
+
+Procesamiento de la solución:
+
+El servicio una vez que realizó la validación y recepción de la información realizará las siguientes acciones:
+
+•	Registrar la información del motivo.
+
+Presentación de los resultados
+
+La respuesta obtenida como resultado será la siguiente:
+
+•	Estado:
+o	Código: 0: Código de éxito / -1: Error en la operación.
+o	Mensaje: Mensaje de resultado de la operación.
+•	Datos:
+o	Id: Identificación del motivo.
+
+Criterio de aceptación
+
+La API deberá validar los datos de entrada, consultar y devolver la información, asegurando un manejo adecuado de errores HTTP.
+
+
+
+1.17.3 Actualizar motivo
+
+Descripción: Crear una funcionalidad que permita actualizar la información del motivo en el sistema.
+
+Objetivo: Establecer una funcionalidad que permita actualizar el motivo en el sistema.
+
+Propuesta de Solución: Crear una funcionalidad en la API que permita la actualización del motivo en el sistema.
+
+Flujo del proceso
+
+Recepción y Validación de Solicitud:
+
+Los campos requeridos serán los siguientes:
+
+•	Identificación del motivo: Obligatorio.
+•	Nombre del motivo: Obligatorio.
+•	Estado del motivo: Obligatorio.
+
+Procesamiento de la solución:
+
+El servicio una vez que realizó la validación y recepción de la información realizará las siguientes acciones:
+
+•	Actualizar la información del motivo.
+
+Presentación de los resultados
+
+La respuesta obtenida como resultado será la siguiente:
+
+•	Estado:
+o	Código: 0: Código de éxito / -1: Error en la operación.
+o	Mensaje: Mensaje de resultado de la operación.
+
+Criterio de aceptación
+
+La API deberá validar los datos de entrada, consultar y devolver la información, asegurando un manejo adecuado de errores HTTP.
+
+
+1.17.4 Consultar parámetros
+
+Descripción: Crear una funcionalidad que permita consultar la configuración de los parámetros del sistema.
+
+Objetivo: Establecer una funcionalidad que permita consultar la configuración de los parámetros del sistema.
+
+Propuesta de Solución: Crear una funcionalidad en la API que permita consultar la configuración de los parámetros del sistema.
+
+Flujo del proceso
+
+Recepción y Validación de Solicitud:
+
+La API deberá validar los datos de entrada, consultar y devolver la información, asegurando un manejo adecuado de errores HTTP.
+
+Procesamiento de la solución:
+
+El servicio una vez que realizó la validación y recepción de la información realizará las siguientes acciones:
+
+•	Obtener la cantidad de tiempo de desbloqueo de la mercadería.
+•	Obtener la cantidad de tiempo de reserva de la mercadería.
+
+Presentación de los resultados
+
+La respuesta obtenida como resultado será la siguiente:
+
+•	Cantidad de tiempo para el desbloqueo.
+•	Unidad de medida de desbloqueo (minutos, horas, días).
+•	Cantidad de tiempo de la reserva de mercadería.
+•	Unidad de medida de reserva de mercadería (minutos, horas, días).
+
+Criterio de aceptación
+
+Se validarán los formatos, existencia y compatibilidad de los datos ingresados en cada uno de los campos.
+
+El servicio responderá de acuerdo con el estándar de errores HTTP.
+
+
+1.17.5 Registrar parámetros
+
+Descripción: Crear una funcionalidad que permita registrar la configuración de los parámetros del sistema.
+
+Objetivo: Establecer una funcionalidad que permita registrar la configuración de los parámetros del sistema.
+
+Propuesta de Solución: Crear una funcionalidad en la API que permita actualizar la configuración de los parámetros del sistema.
+
+Flujo del proceso
+
+Recepción y Validación de Solicitud:
+
+La API deberá validar los datos de entrada, consultar y devolver la información, asegurando un manejo adecuado de errores HTTP.
+
+Los campos requeridos serán los siguientes:
+
+·	Cantidad de tiempo para el desbloqueo.
+·	Unidad de medida de desbloqueo (minutos, horas, días).
+·	Cantidad de tiempo de liberación de la reserva de mercadería.
+·	Unidad de medida de liberación de la reserva de mercadería (minutos, horas, días).
+
+Procesamiento de la solución:
+
+El servicio una vez que realizó la validación y recepción de la información realizará las siguientes acciones:
+
+•	Registrar la cantidad de tiempo de desbloqueo de la mercadería.
+•	Registrar la cantidad de tiempo de liberación de reserva de la mercadería.
+
+Presentación de los resultados
+
+La respuesta obtenida como resultado será la siguiente:
+
+•	Estado:
+o	Código: 0: Código de éxito / -1: Error en la operación.
+o	Mensaje: Mensaje de resultado de la operación.
+
+Criterio de aceptación
+
+Se validarán los formatos, existencia y compatibilidad de los datos ingresados en cada uno de los campos.
+
+El servicio responderá de acuerdo con el estándar de errores HTTP.
+
+
+1.17.6 Actualización de parámetros
+
+Descripción: Crear una funcionalidad que permita actualizar la configuración de los parámetros del sistema.
+
+Objetivo: Establecer una funcionalidad que permita actualizar la configuración de los parámetros del sistema.
+
+Propuesta de Solución: Crear una funcionalidad en la API que permita actualizar la configuración de los parámetros del sistema.
+
+Flujo del proceso
+
+Recepción y Validación de Solicitud:
+
+La API deberá validar los datos de entrada, consultar y devolver la información, asegurando un manejo adecuado de errores HTTP.
+
+Los campos requeridos serán los siguientes:
+
+·	Cantidad de tiempo para el desbloqueo.
+·	Unidad de medida de desbloqueo (minutos, horas, días).
+·	Cantidad de tiempo de liberación de la reserva de mercadería.
+·	Unidad de medida de liberación de la reserva de mercadería (minutos, horas, días).
+
+Procesamiento de la solución:
+
+El servicio una vez que realizó la validación y recepción de la información realizará las siguientes acciones:
+
+•	Actualizar la cantidad de tiempo de desbloqueo de la mercadería.
+•	Actualizar la cantidad de tiempo de liberación de reserva de la mercadería.
+
+Presentación de los resultados
+
+La respuesta obtenida como resultado será la siguiente:
+
+•	Estado:
+o	Código: 0: Código de éxito / -1: Error en la operación.
+o	Mensaje: Mensaje de resultado de la operación.
+
+Criterio de aceptación
+
+Se validarán los formatos, existencia y compatibilidad de los datos ingresados en cada uno de los campos.
+
+El servicio responderá de acuerdo con el estándar de errores HTTP.
+
+
+1.17.7 Consultar Almacén
+
+Descripción: Crear una funcionalidad que permita traer la información de los almacenes registrados en el sistema.
+
+Objetivo: Establecer una funcionalidad que permita la consulta de los almacenes registrados en el sistema.
+
+Propuesta de Solución: Crear una funcionalidad en la API que permita la consulta de los almacenes.
+
+Flujo del proceso
+
+Recepción y Validación de Solicitud:
+
+Los campos de búsqueda serán los siguientes:
+
+•	Código de almacén: Opcional.
+•	Tipo de almacén: Opcional.
+
+Procesamiento de la solución:
+
+El servicio una vez que realizó la validación y recepción de la información realizará las siguientes acciones:
+
+•	Consulta la información de los almacenes registrados.
+
+Finalizado el proceso, el sistema informará en la respuesta el resultado de la consulta.
+
+Presentación de los resultados
+
+La respuesta obtenida como resultado de la consulta será la siguiente:
+
+•	Código del almacén: Obligatorio.	
+•	Nombre del almacén: Obligatorio.
+•	Tipo de almacén: Obligatorio.
+•	Dirección del almacén: Obligatorio.
+•	Bloqueo del almacén: Obligatorio.
+•	Estado del almacén: Obligatorio.
+
+Criterio de aceptación
+
+La API deberá validar los datos de entrada, consultar y devolver la información, asegurando un manejo adecuado de errores HTTP.
+
+
+1.17.8 Consultar Empresa Transporte
+
+Descripción: Crear una funcionalidad que permita traer la información de las empresas de transporte registrados en el sistema.
+
+Objetivo: Establecer una funcionalidad que permita la consulta de las empresas de transporte registrados en el sistema.
+
+Propuesta de Solución: Crear una funcionalidad en la API que permita la consulta de las empresas de transporte.
+
+Flujo del proceso
+
+Recepción y Validación de Solicitud:
+
+Los campos de búsqueda serán los siguientes:
+
+•	Identificador de la empresa de transporte: Opcional.
+•	Nro. de RUC de la empresa de transporte: Opcional.
+•	Razón social de la empresa de transporte: Opcional.
+
+Procesamiento de la solución:
+
+El servicio una vez que realizó la validación y recepción de la información realizará las siguientes acciones:
+
+•	Consulta la información de los almacenes registrados.
+
+Finalizado el proceso, el sistema informará en la respuesta el resultado de la consulta.
+
+Presentación de los resultados
+
+La respuesta obtenida como resultado de la consulta será la siguiente:
+
+•	Identificación de la empresa de transporte: Obligatorio.	
+•	Razón Social de la empresa de transporte: Obligatorio.
+•	Nro. de RUC de la empresa de transporte: Obligatorio.
+
+Criterio de aceptación
+
+La API deberá validar los datos de entrada, consultar y devolver la información, asegurando un manejo adecuado de errores HTTP.
+
+
+1.17.9 Consultar Transportista
+
+Descripción: Crear una funcionalidad que permita traer la información de los transportistas registrados en el sistema.
+
+Objetivo: Establecer una funcionalidad que permita la consulta de los transportistas registrados en el sistema.
+
+Propuesta de Solución: Crear una funcionalidad en la API que permita la consulta de las empresas de transporte.
+
+Flujo del proceso
+
+Recepción y Validación de Solicitud:
+
+Los campos de búsqueda serán los siguientes:
+
+•	Identificador de la empresa de transporte: Opcional.
+•	Identificador del transportista: Opcional.
+•	Tipo de documento del transportista: Opcional.
+•	Nro. de documento del transportista: Opcional.
+•	Nombre del transportista: Opcional.
+
+Procesamiento de la solución:
+
+El servicio una vez que realizó la validación y recepción de la información realizará las siguientes acciones:
+
+•	Consulta la información de los transportistas registrados.
+
+Finalizado el proceso, el sistema informará en la respuesta el resultado de la consulta.
+
+Presentación de los resultados
+
+La respuesta obtenida como resultado de la consulta será la siguiente:
+
+•	Identificación de la empresa de transporte: Obligatorio.
+•	Identificación del transportista: Obligatorio.	
+•	Nombre del transportista: Obligatorio.
+•	Tipo de documento del transportista: Obligatorio.
+•	Nro. de documento del transportista: Obligatorio.
+
+Criterio de aceptación
+
+La API deberá validar los datos de entrada, consultar y devolver la información, asegurando un manejo adecuado de errores HTTP.
+
+OUTGOING STRUCTURAL RELATIONSHIPS
+
+   Asociación «Asociación» from «Requerimiento Funcional» RF 1.17 (PS) Configuracion de Sistema to «Function» PKG_CONFIG.TMFSS_CONSULTAR_MOTIVO
+[ Direction is 'Origen -> Destino'. ]
+
+
+   Asociación «Asociación» from «Requerimiento Funcional» RF 1.17 (PS) Configuracion de Sistema to «Function» PKG_CONFIG.TMFSS_CONSULTAR_DISTRIBUIDOR
+[ Direction is 'Origen -> Destino'. ]
+
+
+   Asociación «Asociación» from «Requerimiento Funcional» RF 1.17 (PS) Configuracion de Sistema to «Objetivo Estratégico» Acelerar la transformación digital
+[ Direction is 'Origen -> Destino'. ]
+
+
+   Asociación «Asociación» from «Requerimiento Funcional» RF 1.17 (PS) Configuracion de Sistema to «Function» PKG_CONFIG.TMFSI_REGISTRAR_PARAMETRO
+[ Direction is 'Origen -> Destino'. ]
+
+
+   Asociación «Asociación» from «Requerimiento Funcional» RF 1.17 (PS) Configuracion de Sistema to «Function» PKG_CONFIG.TMFSI_REGISTRAR_MOTIVO
+[ Direction is 'Origen -> Destino'. ]
+
+
+   Asociación «Asociación» from «Requerimiento Funcional» RF 1.17 (PS) Configuracion de Sistema to «Servicio» bff-exp-gestion-config-reportes
+[ Direction is 'Origen -> Destino'. ]
+
+
+   Asociación «Asociación» from «Requerimiento Funcional» RF 1.17 (PS) Configuracion de Sistema to «Function» PKG_CONFIG.TMFSU_ACTUALIZAR_PARAMETRO
+[ Direction is 'Origen -> Destino'. ]
+
+
+   Asociación «Asociación» from «Requerimiento Funcional» RF 1.17 (PS) Configuracion de Sistema to «Function» PKG_CONFIG.TMFSU_ACTUALIZAR_MOTIVO
+[ Direction is 'Origen -> Destino'. ]
+
+
+   Asociación «Asociación» from «Requerimiento Funcional» RF 1.17 (PS) Configuracion de Sistema to «Function» PKG_CONFIG.TMFSS_CONSULTAR_CENTRO
+[ Direction is 'Origen -> Destino'. ]
+
+
+   Asociación «Asociación» from «Requerimiento Funcional» RF 1.17 (PS) Configuracion de Sistema to «Function» PKG_CONFIG.TMFSS_CONSULTAR_PARAMETRO
+[ Direction is 'Origen -> Destino'. ]
+
+
+INCOMING STRUCTURAL RELATIONSHIPS
+
+   Realization  from «Requerimiento Funcional» RF 1.13 Configuración del Sistema to «Requerimiento Funcional» RF 1.17 (PS) Configuracion de Sistema
+[ Direction is 'Origen -> Destino'. ]
+
+
+CONNECTORS
+
+   Asociación  «Asociación»      Origen -> Destino
+From:	RF 1.17 (PS) Configuracion de Sistema : RF 0, Public  
+To:	PKG_CONFIG.TMFSS_CONSULTAR_MOTIVO : Application Function Name , Public  
+
+
+   Asociación  «Asociación»      Origen -> Destino
+From:	RF 1.17 (PS) Configuracion de Sistema : RF 0, Public  
+To:	PKG_CONFIG.TMFSS_CONSULTAR_DISTRIBUIDOR : Application Function Name , Public  
+
+
+   Asociación  «Asociación»      Origen -> Destino
+From:	RF 1.17 (PS) Configuracion de Sistema : RF 0, Public  
+To:	Acelerar la transformación digital : Objetivo Estratégico , Public  
+
+
+   Asociación  «Asociación»      Origen -> Destino
+From:	RF 1.17 (PS) Configuracion de Sistema : RF 0, Public  
+To:	PKG_CONFIG.TMFSI_REGISTRAR_PARAMETRO : Application Function Name , Public  
+
+
+   Asociación  «Asociación»      Origen -> Destino
+From:	RF 1.17 (PS) Configuracion de Sistema : RF 0, Public  
+To:	PKG_CONFIG.TMFSI_REGISTRAR_MOTIVO : Application Function Name , Public  
+
+
+   Asociación  «Asociación»      Origen -> Destino
+From:	RF 1.17 (PS) Configuracion de Sistema : RF 0, Public  
+To:	bff-exp-gestion-config-reportes : Application Service Name , Public  
+
+
+   Asociación  «Asociación»      Origen -> Destino
+From:	RF 1.17 (PS) Configuracion de Sistema : RF 0, Public  
+To:	PKG_CONFIG.TMFSU_ACTUALIZAR_PARAMETRO : Application Function Name , Public  
+
+
+   Asociación  «Asociación»      Origen -> Destino
+From:	RF 1.17 (PS) Configuracion de Sistema : RF 0, Public  
+To:	PKG_CONFIG.TMFSU_ACTUALIZAR_MOTIVO : Application Function Name , Public  
+
+
+   Asociación  «Asociación»      Origen -> Destino
+From:	RF 1.17 (PS) Configuracion de Sistema : RF 0, Public  
+To:	PKG_CONFIG.TMFSS_CONSULTAR_CENTRO : Application Function Name , Public  
+
+
+   Asociación  «Asociación»      Origen -> Destino
+From:	RF 1.17 (PS) Configuracion de Sistema : RF 0, Public  
+To:	PKG_CONFIG.TMFSS_CONSULTAR_PARAMETRO : Application Function Name , Public  
+
+
+ASSOCIATIONS
+
+   Asociación (direction: Origen -> Destino)  «Asociación»
+
+Source: Public (RF 0) RF 1.17 (PS) Configuracion de Sistema «Requerimiento Funcional»
+	Target: Public (Application Function Name ) PKG_CONFIG.TMFSS_CONSULTAR_MOTIVO «Function»
+
+
+   Asociación (direction: Origen -> Destino)  «Asociación»
+
+Source: Public (RF 0) RF 1.17 (PS) Configuracion de Sistema «Requerimiento Funcional»
+	Target: Public (Application Function Name ) PKG_CONFIG.TMFSS_CONSULTAR_DISTRIBUIDOR «Function»
+
+
+   Asociación (direction: Origen -> Destino)  «Asociación»
+
+Source: Public (RF 0) RF 1.17 (PS) Configuracion de Sistema «Requerimiento Funcional»
+	Target: Public (Objetivo Estratégico ) Acelerar la transformación digital «Objetivo Estratégico»
+
+
+   Asociación (direction: Origen -> Destino)  «Asociación»
+
+Source: Public (RF 0) RF 1.17 (PS) Configuracion de Sistema «Requerimiento Funcional»
+	Target: Public (Application Function Name ) PKG_CONFIG.TMFSI_REGISTRAR_PARAMETRO «Function»
+
+
+   Asociación (direction: Origen -> Destino)  «Asociación»
+
+Source: Public (RF 0) RF 1.17 (PS) Configuracion de Sistema «Requerimiento Funcional»
+	Target: Public (Application Function Name ) PKG_CONFIG.TMFSI_REGISTRAR_MOTIVO «Function»
+
+
+   Asociación (direction: Origen -> Destino)  «Asociación»
+
+Source: Public (RF 0) RF 1.17 (PS) Configuracion de Sistema «Requerimiento Funcional»
+	Target: Public (Application Service Name ) bff-exp-gestion-config-reportes «Servicio»
+
+
+   Asociación (direction: Origen -> Destino)  «Asociación»
+
+Source: Public (RF 0) RF 1.17 (PS) Configuracion de Sistema «Requerimiento Funcional»
+	Target: Public (Application Function Name ) PKG_CONFIG.TMFSU_ACTUALIZAR_PARAMETRO «Function»
+
+
+   Asociación (direction: Origen -> Destino)  «Asociación»
+
+Source: Public (RF 0) RF 1.17 (PS) Configuracion de Sistema «Requerimiento Funcional»
+	Target: Public (Application Function Name ) PKG_CONFIG.TMFSU_ACTUALIZAR_MOTIVO «Function»
+
+
+   Asociación (direction: Origen -> Destino)  «Asociación»
+
+Source: Public (RF 0) RF 1.17 (PS) Configuracion de Sistema «Requerimiento Funcional»
+	Target: Public (Application Function Name ) PKG_CONFIG.TMFSS_CONSULTAR_CENTRO «Function»
+
+
+   Asociación (direction: Origen -> Destino)  «Asociación»
+
+Source: Public (RF 0) RF 1.17 (PS) Configuracion de Sistema «Requerimiento Funcional»
+	Target: Public (Application Function Name ) PKG_CONFIG.TMFSS_CONSULTAR_PARAMETRO «Function»
+
+
+  

@@ -1,0 +1,37 @@
+<div class="app-container">
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-content">
+      <h1>{{ title() }}</h1>
+      <p class="subtitle">Gestión de Configuración del Sistema</p>
+    </div>
+  </header>
+
+  <!-- Navegación -->
+  <nav class="app-nav">
+    <a 
+      routerLink="/motivos" 
+      routerLinkActive="active"
+      class="nav-link"
+    >
+      Mantenimiento de Motivos
+    </a>
+    <a 
+      routerLink="/parametros" 
+      routerLinkActive="active"
+      class="nav-link"
+    >
+      Configuración de Parámetros
+    </a>
+  </nav>
+
+  <!-- Contenido Principal -->
+  <main class="app-main">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Sistema de Logística y Stock - RF 1.28 (PS) Pantalla de Configuración</p>
+  </footer>
+</div>

@@ -1,0 +1,86 @@
+<div class="modal-overlay" (click)="cancelar()">
+  <div class="modal-contenido" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Editar Motivo de Devolución</h2>
+      <button type="button" class="btn-cerrar" (click)="cancelar()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Mensaje de error -->
+      <div *ngIf="mensajeError" class="alerta alerta-error">
+        {{ mensajeError }}
+      </div>
+
+      <form #formulario="ngForm">
+        <!-- Descripción del motivo -->
+        <div class="campo-formulario">
+          <label for="descripcion">
+            Descripción del motivo <span class="campo-requerido">*</span>
+          </label>
+          <input
+            type="text"
+            id="descripcion"
+            name="descripcion"
+            [(ngModel)]="descripcion"
+            required
+            maxlength="100"
+            class="input-texto"
+            [class.input-error]="errores.descripcion"
+            placeholder="Ingrese la descripción del motivo (3-100 caracteres)"
+            data-test="input-descripcion"
+          />
+          <div class="campo-info">
+            <span *ngIf="errores.descripcion" class="mensaje-error">
+              {{ errores.descripcion }}
+            </span>
+            <span class="contador-caracteres" [class.texto-advertencia]="descripcion.length > 90">
+              {{ descripcion.length }} / 100 caracteres
+            </span>
+          </div>
+        </div>
+
+        <!-- Estado -->
+        <div class="campo-formulario">
+          <label for="estado">
+            Estado <span class="campo-requerido">*</span>
+          </label>
+          <select
+            id="estado"
+            name="estado"
+            [(ngModel)]="estado"
+            required
+            class="input-select"
+            data-test="select-estado"
+          >
+            <option
+              *ngFor="let estadoOption of estadosDisponibles"
+              [ngValue]="estadoOption.valor"
+            >
+              {{ estadoOption.etiqueta }}
+            </option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secundario"
+        (click)="cancelar()"
+        [disabled]="guardando"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-primario"
+        (click)="guardar()"
+        [disabled]="guardando"
+        data-test="guardar-motivo"
+      >
+        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      </button>
+    </div>
+  </div>
+</div>

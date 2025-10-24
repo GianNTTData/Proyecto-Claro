@@ -1,0 +1,143 @@
+<div class="motivos-lista-container">
+  <h1>Mantenimiento de Motivos de Devolución</h1>
+
+  <!-- Mensajes -->
+  <div class="mensajes">
+    <div *ngIf="mensajeExito" class="alerta alerta-exito">
+      {{ mensajeExito }}
+    </div>
+    <div *ngIf="mensajeError" class="alerta alerta-error">
+      {{ mensajeError }}
+    </div>
+  </div>
+
+  <!-- Filtros de Búsqueda -->
+  <div class="filtros-container">
+    <h2>Filtros de Búsqueda</h2>
+    <div class="filtros-grid">
+      <div class="campo-formulario">
+        <label for="filtroDescripcion">Descripción del motivo:</label>
+        <input 
+          type="text" 
+          id="filtroDescripcion"
+          [(ngModel)]="filtros.descripcion"
+          placeholder="Ingrese descripción"
+          class="input-texto"
+          data-test="filtro-descripcion"
+        />
+      </div>
+
+      <div class="campo-formulario">
+        <label for="filtroEstado">Estado:</label>
+        <select 
+          id="filtroEstado"
+          [(ngModel)]="filtros.estado"
+          class="input-select"
+          data-test="filtro-estado"
+        >
+          <option [ngValue]="undefined">Todos</option>
+          <option 
+            *ngFor="let estado of estadosDisponibles" 
+            [ngValue]="estado.valor"
+          >
+            {{ estado.etiqueta }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="botones-filtros">
+      <button 
+        type="button" 
+        class="btn btn-primario"
+        (click)="buscarMotivos()"
+        [disabled]="cargando"
+        data-test="buscar-motivos"
+      >
+        {{ cargando ? 'Buscando...' : 'Buscar' }}
+      </button>
+      <button 
+        type="button" 
+        class="btn btn-secundario"
+        (click)="limpiarFiltros()"
+      >
+        Limpiar
+      </button>
+    </div>
+  </div>
+
+  <!-- Botón Agregar -->
+  <div class="acciones-principales">
+    <button 
+      type="button" 
+      class="btn btn-exito"
+      (click)="abrirModalAgregar()"
+      data-test="agregar-motivo"
+    >
+      + Agregar Motivo
+    </button>
+  </div>
+
+  <!-- Tabla de Resultados -->
+  <div class="tabla-container">
+    <h2>Resultados de Búsqueda</h2>
+    
+    <div *ngIf="cargando" class="cargando">
+      Cargando motivos...
+    </div>
+
+    <table *ngIf="!cargando" class="tabla-motivos" data-test="tabla-motivos">
+      <thead>
+        <tr>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="motivos.length === 0">
+          <td colspan="3" class="sin-resultados">
+            No se encontraron motivos con los criterios de búsqueda
+          </td>
+        </tr>
+        <tr *ngFor="let motivo of motivos">
+          <td>{{ motivo.descripcion }}</td>
+          <td>
+            <span 
+              class="badge"
+              [class.badge-activo]="motivo.estado === 'ACTIVO'"
+              [class.badge-inactivo]="motivo.estado === 'INACTIVO'"
+            >
+              {{ motivo.estado === 'ACTIVO' ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>
+            <button 
+              type="button"
+              class="btn btn-small btn-editar"
+              (click)="abrirModalEditar(motivo)"
+              [attr.data-test]="'editar-motivo-' + motivo.id"
+            >
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal Agregar (placeholder - se implementará en el componente motivo-agregar) -->
+  <app-motivo-agregar
+    *ngIf="mostrarModalAgregar"
+    (cerrar)="cerrarModales()"
+    (motivoGuardado)="onMotivoGuardado($event)"
+  ></app-motivo-agregar>
+
+  <!-- Modal Editar (placeholder - se implementará en el componente motivo-editar) -->
+  <app-motivo-editar
+    *ngIf="mostrarModalEditar"
+    [motivo]="motivoSeleccionado"
+    (cerrar)="cerrarModales()"
+    (motivoGuardado)="onMotivoGuardado($event)"
+  ></app-motivo-editar>
+</div>
