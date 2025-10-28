@@ -18,16 +18,16 @@ export class ParametrosConfig implements OnInit {
   // Configuración actual
   parametros: Parametro = {
     cantidadTiempoDesbloqueo: 0,
-    unidadMedidaTiempoDesbloqueo: 'HORAS',
+    unidadMedidaTiempoDesbloqueo: 'horas',
     cantidadTiempoReserva: 0,
-    unidadMedidaTiempoReserva: 'HORAS'
+    unidadMedidaTiempoReserva: 'horas'
   };
 
-  // Unidades de medida disponibles
+  // Unidades de medida disponibles (valores en minúscula según Backend)
   unidadesMedida = [
-    { valor: 'MINUTOS', etiqueta: 'Minutos' },
-    { valor: 'HORAS', etiqueta: 'Horas' },
-    { valor: 'DIAS', etiqueta: 'Días' }
+    { valor: 'minutos', etiqueta: 'Minutos' },
+    { valor: 'horas', etiqueta: 'Horas' },
+    { valor: 'dias', etiqueta: 'Días' }
   ];
 
   // Control de UI

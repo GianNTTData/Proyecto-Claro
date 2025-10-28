@@ -10,9 +10,9 @@ import { Parametro, ParametroResponse } from '../models/parametro.model';
 // Base de datos mock en memoria (configuración actual)
 let parametrosMock: Parametro = {
   cantidadTiempoDesbloqueo: 48,
-  unidadMedidaTiempoDesbloqueo: 'HORAS',
+  unidadMedidaTiempoDesbloqueo: 'horas',
   cantidadTiempoReserva: 24,
-  unidadMedidaTiempoReserva: 'HORAS'
+  unidadMedidaTiempoReserva: 'horas'
 };
 
 /**
