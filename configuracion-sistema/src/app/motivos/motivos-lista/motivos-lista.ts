@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MotivosService } from '../../services/motivos';
-import { Motivo, EstadoMotivo, MotivoFiltros } from '../../models/motivo.model';
+import { Motivo, MotivoFiltros } from '../../models/motivo.model';
 import { MotivoAgregar } from '../motivo-agregar/motivo-agregar';
 import { MotivoEditar } from '../motivo-editar/motivo-editar';
 
@@ -23,14 +23,14 @@ export class MotivosLista implements OnInit {
   
   // Filtros de búsqueda
   filtros: MotivoFiltros = {
-    descripcion: '',
-    estado: undefined
+    nombreMotivo: '',
+    estadoMotivo: undefined
   };
 
   // Estados para dropdowns
   estadosDisponibles = [
-    { valor: EstadoMotivo.ACTIVO, etiqueta: 'Activo' },
-    { valor: EstadoMotivo.INACTIVO, etiqueta: 'Inactivo' }
+    { valor: 'ACTIVO', etiqueta: 'Activo' },
+    { valor: 'INACTIVO', etiqueta: 'Inactivo' }
   ];
 
   // Control de UI
@@ -54,15 +54,9 @@ export class MotivosLista implements OnInit {
     this.cargando = true;
     this.mensajeError = '';
     
-    // Obtener almacén de la sesión del usuario
-    const almacenId = this.obtenerAlmacenSesion();
-    
-    const filtrosCompletos: MotivoFiltros = {
-      ...this.filtros,
-      almacenId
-    };
-
-    this.motivosService.consultarMotivos(filtrosCompletos).subscribe({
+    // Nota: almacenId NO es un parámetro soportado por el Backend según RF 1.17.1
+    // Solo se envían descripcion y estado
+    this.motivosService.consultarMotivos(this.filtros).subscribe({
       next: (motivos) => {
         this.motivos = motivos;
         this.cargando = false;
@@ -122,19 +116,9 @@ export class MotivosLista implements OnInit {
    */
   limpiarFiltros(): void {
     this.filtros = {
-      descripcion: '',
-      estado: undefined
+      nombreMotivo: '',
+      estadoMotivo: undefined
     };
     this.buscarMotivos();
-  }
-
-  /**
-   * Obtiene el almacén de la sesión del usuario
-   * TODO: Implementar integración con servicio de sesión
-   */
-  private obtenerAlmacenSesion(): number {
-    // Por ahora retorna un valor hardcodeado
-    // Esto debe ser reemplazado con la lógica real de sesión
-    return 1;
   }
 }

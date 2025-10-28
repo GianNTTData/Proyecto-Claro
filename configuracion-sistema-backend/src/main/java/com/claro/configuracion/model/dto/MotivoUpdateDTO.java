@@ -12,17 +12,12 @@ import lombok.NoArgsConstructor;
  * DTO para solicitud de actualización de motivo
  * RF 1.17.3 - Actualizar motivo
  * Según apis-configuracion-spec.md - Nomenclatura del EDS
+ * El ID viene en el path parameter, no en el body
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class MotivoUpdateDTO {
-    
-    /**
-     * Identificación del motivo (requerido)
-     */
-    @NotBlank(message = "El ID del motivo es obligatorio")
-    private String id;
     
     /**
      * Nombre del motivo (requerido)

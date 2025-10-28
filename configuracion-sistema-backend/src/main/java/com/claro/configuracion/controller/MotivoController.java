@@ -67,8 +67,8 @@ public class MotivoController {
             @RequestHeader(value = "authorization", required = false) String authorization,
             
             // Query parameters
-            @Parameter(description = "Timestamp en formato ISO 8601", required = true)
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime timestamp,
+            @Parameter(description = "Timestamp en formato ISO 8601", required = false)
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime timestamp,
             
             @Parameter(description = "Nombre del motivo (búsqueda parcial)")
             @RequestParam(value = "nombreMotivo", required = false) String nombreMotivo,

@@ -1,56 +1,33 @@
 /**
  * Modelo para Parámetros de Configuración
  * RF 1.28.2 - Parámetros
+ * Alineado con Backend DTO (ParametroResponseDTO)
  */
 export interface Parametro {
-  id?: number;
-  codigo: CodigoParametro;
-  cantidad: number;
-  unidadMedida: UnidadMedida;
-  descripcion?: string;
-  fechaCreacion?: Date;
-  fechaModificacion?: Date;
+  cantidadTiempoDesbloqueo?: number;
+  unidadMedidaTiempoDesbloqueo?: string;
+  cantidadTiempoReserva?: number;
+  unidadMedidaTiempoReserva?: string;
 }
 
 /**
- * Códigos de parámetros del sistema
- */
-export enum CodigoParametro {
-  TIEMPO_RESERVA = 'TIEMPO_RESERVA',
-  TIEMPO_BLOQUEO = 'TIEMPO_BLOQUEO'
-}
-
-/**
- * Unidades de medida para tiempo
- */
-export enum UnidadMedida {
-  MINUTOS = 'MINUTOS',
-  HORAS = 'HORAS',
-  DIAS = 'DIAS'
-}
-
-/**
- * Request para registrar/actualizar parámetro
+ * Request para actualizar parámetros
+ * Según Backend ParametroRequestDTO
  */
 export interface ParametroRequest {
-  codigo: CodigoParametro;
-  cantidad: number;
-  unidadMedida: UnidadMedida;
+  cantidadTiempoDesbloqueo: number;
+  unidadMedidaTiempoDesbloqueo: string;
+  cantidadTiempoReserva: number;
+  unidadMedidaTiempoReserva: string;
 }
 
 /**
  * Response de operaciones con parámetros
+ * Según Backend ApiResponseDTO<ParametroResponseDTO>
  */
 export interface ParametroResponse {
-  success: boolean;
-  message: string;
-  data?: Parametro | Parametro[];
-}
-
-/**
- * Configuración completa de parámetros
- */
-export interface ConfiguracionParametros {
-  tiempoReserva: Parametro;
-  tiempoBloqueo: Parametro;
+  cantidadTiempoDesbloqueo: number;
+  unidadMedidaTiempoDesbloqueo: string;
+  cantidadTiempoReserva: number;
+  unidadMedidaTiempoReserva: string;
 }

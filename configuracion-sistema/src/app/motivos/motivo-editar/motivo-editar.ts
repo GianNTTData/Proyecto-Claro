@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MotivosService } from '../../services/motivos';
-import { Motivo, EstadoMotivo, MotivoRequest } from '../../models/motivo.model';
+import { Motivo, MotivoRequest } from '../../models/motivo.model';
 
 /**
  * Componente Modal para Editar Motivo de Devolución
@@ -20,13 +20,13 @@ export class MotivoEditar implements OnInit {
   @Output() motivoGuardado = new EventEmitter<string>();
 
   // Formulario
-  descripcion = '';
-  estado: EstadoMotivo = EstadoMotivo.ACTIVO;
+  nombreMotivo = '';
+  estadoMotivo = 'ACTIVO';
 
   // Estados disponibles
   estadosDisponibles = [
-    { valor: EstadoMotivo.ACTIVO, etiqueta: 'Activo' },
-    { valor: EstadoMotivo.INACTIVO, etiqueta: 'Inactivo' }
+    { valor: 'ACTIVO', etiqueta: 'Activo' },
+    { valor: 'INACTIVO', etiqueta: 'Inactivo' }
   ];
 
   // Control de UI
@@ -35,15 +35,15 @@ export class MotivoEditar implements OnInit {
 
   // Errores de validación
   errores = {
-    descripcion: ''
+    nombreMotivo: ''
   };
 
   constructor(private motivosService: MotivosService) {}
 
   ngOnInit(): void {
     if (this.motivo) {
-      this.descripcion = this.motivo.descripcion;
-      this.estado = this.motivo.estado;
+      this.nombreMotivo = this.motivo.nombreMotivo;
+      this.estadoMotivo = this.motivo.estadoMotivo;
     }
   }
 
@@ -56,34 +56,34 @@ export class MotivoEditar implements OnInit {
    */
   validarFormulario(): boolean {
     let valido = true;
-    this.errores = { descripcion: '' };
+    this.errores = { nombreMotivo: '' };
 
     // Aplicar trim automáticamente
-    this.descripcion = this.descripcion.trim();
+    this.nombreMotivo = this.nombreMotivo.trim();
 
-    // Validar descripción - Campo vacío
-    if (!this.descripcion || this.descripcion.length === 0) {
-      this.errores.descripcion = 'La descripción es obligatoria';
+    // Validar nombreMotivo - Campo vacío
+    if (!this.nombreMotivo || this.nombreMotivo.length === 0) {
+      this.errores.nombreMotivo = 'La descripción es obligatoria';
       valido = false;
       return valido;
     }
 
-    // Validar descripción - Solo espacios (ya aplicado trim arriba)
-    if (this.descripcion.length === 0) {
-      this.errores.descripcion = 'La descripción no puede estar vacía';
+    // Validar nombreMotivo - Solo espacios (ya aplicado trim arriba)
+    if (this.nombreMotivo.length === 0) {
+      this.errores.nombreMotivo = 'La descripción no puede estar vacía';
       valido = false;
       return valido;
     }
 
-    // Validar descripción - Rango de caracteres (3-100)
-    if (this.descripcion.length < 3) {
-      this.errores.descripcion = 'La descripción debe tener al menos 3 caracteres';
+    // Validar nombreMotivo - Rango de caracteres (3-100)
+    if (this.nombreMotivo.length < 3) {
+      this.errores.nombreMotivo = 'La descripción debe tener al menos 3 caracteres';
       valido = false;
       return valido;
     }
 
-    if (this.descripcion.length > 100) {
-      this.errores.descripcion = 'La descripción no puede exceder 100 caracteres';
+    if (this.nombreMotivo.length > 100) {
+      this.errores.nombreMotivo = 'La descripción no puede exceder 100 caracteres';
       valido = false;
       return valido;
     }
@@ -104,9 +104,8 @@ export class MotivoEditar implements OnInit {
     this.mensajeError = '';
 
     const motivoActualizado: MotivoRequest = {
-      descripcion: this.descripcion.trim(),
-      estado: this.estado,
-      almacenId: this.motivo.almacenId
+      nombreMotivo: this.nombreMotivo.trim(),
+      estadoMotivo: this.estadoMotivo
     };
 
     this.motivosService.actualizarMotivo(this.motivo.id, motivoActualizado).subscribe({

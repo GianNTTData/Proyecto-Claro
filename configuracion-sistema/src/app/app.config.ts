@@ -1,10 +1,9 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { routes } from './app.routes';
-import { motivosMockInterceptor } from './services/motivos-mock.interceptor';
-import { parametrosMockInterceptor } from './services/parametros-mock.interceptor';
+import { TracingInterceptor } from './services/tracing.interceptor';
 
 // Detectar si estamos en modo E2E (Playwright)
 // En modo E2E, los mocks los maneja Playwright con page.route()
@@ -16,14 +15,13 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(
-      // Solo usar interceptores mock en desarrollo normal, no en E2E
-      isE2ETesting
-        ? withInterceptors([]) // Sin interceptores en E2E
-        : withInterceptors([
-            motivosMockInterceptor,
-            parametrosMockInterceptor
-          ])
-    )
+    // CRÍTICO: withInterceptorsFromDi() permite que los interceptores registrados con HTTP_INTERCEPTORS funcionen
+    provideHttpClient(withInterceptorsFromDi()),
+    // Registrar interceptor de trazabilidad para conexión real con Backend
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TracingInterceptor,
+      multi: true
+    }
   ]
 };

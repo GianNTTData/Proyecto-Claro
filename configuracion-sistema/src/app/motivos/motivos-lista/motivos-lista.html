@@ -20,7 +20,7 @@
         <input 
           type="text" 
           id="filtroDescripcion"
-          [(ngModel)]="filtros.descripcion"
+          [(ngModel)]="filtros.nombreMotivo"
           placeholder="Ingrese descripción"
           class="input-texto"
           data-test="filtro-descripcion"
@@ -31,7 +31,7 @@
         <label for="filtroEstado">Estado:</label>
         <select 
           id="filtroEstado"
-          [(ngModel)]="filtros.estado"
+          [(ngModel)]="filtros.estadoMotivo"
           class="input-select"
           data-test="filtro-estado"
         >
@@ -101,14 +101,14 @@
           </td>
         </tr>
         <tr *ngFor="let motivo of motivos">
-          <td>{{ motivo.descripcion }}</td>
+          <td>{{ motivo.nombreMotivo }}</td>
           <td>
             <span 
               class="badge"
-              [class.badge-activo]="motivo.estado === 'ACTIVO'"
-              [class.badge-inactivo]="motivo.estado === 'INACTIVO'"
+              [class.badge-activo]="motivo.estadoMotivo === 'ACTIVO'"
+              [class.badge-inactivo]="motivo.estadoMotivo === 'INACTIVO'"
             >
-              {{ motivo.estado === 'ACTIVO' ? 'Activo' : 'Inactivo' }}
+              {{ motivo.estadoMotivo === 'ACTIVO' ? 'Activo' : 'Inactivo' }}
             </span>
           </td>
           <td>

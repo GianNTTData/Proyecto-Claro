@@ -1,47 +1,42 @@
 /**
  * Modelo para Motivo de Devolución
  * RF 1.28.1 - Mantenimiento de Motivos
+ * Alineado con Backend DTO (nombreMotivo, estadoMotivo)
  */
 export interface Motivo {
-  id?: number;
-  descripcion: string;
-  estado: EstadoMotivo;
-  almacenId?: number;
+  id?: string;  // Backend devuelve String
+  nombreMotivo: string;  // Backend usa 'nombreMotivo' en la API
+  estadoMotivo: string;  // Backend usa 'estadoMotivo' en la API
   fechaCreacion?: Date;
   fechaModificacion?: Date;
 }
 
 /**
- * Estados posibles de un motivo
- */
-export enum EstadoMotivo {
-  ACTIVO = 'ACTIVO',
-  INACTIVO = 'INACTIVO'
-}
-
-/**
  * Filtros para búsqueda de motivos
+ * nombreMotivo y estadoMotivo según Backend API
  */
 export interface MotivoFiltros {
-  descripcion?: string;
-  estado?: EstadoMotivo;
-  almacenId?: number;
+  nombreMotivo?: string;  // Cambiado de 'descripcion' a 'nombreMotivo'
+  estadoMotivo?: string;  // Backend espera String
 }
 
 /**
  * Request para registrar/actualizar motivo
+ * Según Backend DTOs (MotivoRequestDTO)
  */
 export interface MotivoRequest {
-  descripcion: string;
-  estado: EstadoMotivo;
-  almacenId?: number;
+  nombreMotivo: string;  // Backend espera 'nombreMotivo'
+  estadoMotivo: string;   // Backend espera 'estadoMotivo' como String
 }
 
 /**
  * Response de operaciones con motivos
+ * Según Backend DTOs (MotivoResponseDTO dentro de ApiResponseDTO)
  */
 export interface MotivoResponse {
-  success: boolean;
-  message: string;
-  data?: Motivo;
+  id: string;
+  nombreMotivo: string;  // Backend devuelve 'nombreMotivo'
+  estadoMotivo: string;  // Backend devuelve 'estadoMotivo'
+  fechaCreacion?: string;
+  fechaModificacion?: string;
 }

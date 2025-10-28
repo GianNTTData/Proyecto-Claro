@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { forkJoin, Observable } from 'rxjs';
 import { ParametrosService } from '../../services/parametros';
-import { CodigoParametro, Parametro, ParametroRequest, ParametroResponse, UnidadMedida } from '../../models/parametro.model';
+import { Parametro, ParametroRequest } from '../../models/parametro.model';
 
 /**
  * Componente para Configuración de Parámetros
@@ -16,25 +15,19 @@ import { CodigoParametro, Parametro, ParametroRequest, ParametroResponse, Unidad
   styleUrl: './parametros-config.scss',
 })
 export class ParametrosConfig implements OnInit {
-  // Tiempo de Reserva de Mercadería
-  tiempoReserva = {
-    id: undefined as number | undefined,
-    cantidad: 0,
-    unidadMedida: UnidadMedida.HORAS
-  };
-
-  // Tiempo de Bloqueo de Mercadería
-  tiempoBloqueo = {
-    id: undefined as number | undefined,
-    cantidad: 0,
-    unidadMedida: UnidadMedida.HORAS
+  // Configuración actual
+  parametros: Parametro = {
+    cantidadTiempoDesbloqueo: 0,
+    unidadMedidaTiempoDesbloqueo: 'HORAS',
+    cantidadTiempoReserva: 0,
+    unidadMedidaTiempoReserva: 'HORAS'
   };
 
   // Unidades de medida disponibles
   unidadesMedida = [
-    { valor: UnidadMedida.MINUTOS, etiqueta: 'Minutos' },
-    { valor: UnidadMedida.HORAS, etiqueta: 'Horas' },
-    { valor: UnidadMedida.DIAS, etiqueta: 'Días' }
+    { valor: 'MINUTOS', etiqueta: 'Minutos' },
+    { valor: 'HORAS', etiqueta: 'Horas' },
+    { valor: 'DIAS', etiqueta: 'Días' }
   ];
 
   // Control de UI
@@ -47,8 +40,8 @@ export class ParametrosConfig implements OnInit {
   errores = {
     reservaCantidad: '',
     reservaUnidad: '',
-    bloqueoCantidad: '',
-    bloqueoUnidad: ''
+    desbloqueCantidad: '',
+    desbloqueoUnidad: ''
   };
 
   constructor(private parametrosService: ParametrosService) {}
@@ -67,21 +60,7 @@ export class ParametrosConfig implements OnInit {
 
     this.parametrosService.consultarParametros().subscribe({
       next: (parametros) => {
-        parametros.forEach(param => {
-          if (param.codigo === CodigoParametro.TIEMPO_RESERVA) {
-            this.tiempoReserva = {
-              id: param.id,
-              cantidad: param.cantidad,
-              unidadMedida: param.unidadMedida
-            };
-          } else if (param.codigo === CodigoParametro.TIEMPO_BLOQUEO) {
-            this.tiempoBloqueo = {
-              id: param.id,
-              cantidad: param.cantidad,
-              unidadMedida: param.unidadMedida
-            };
-          }
-        });
+        this.parametros = parametros;
         this.cargando = false;
       },
       error: (error) => {
@@ -100,63 +79,49 @@ export class ParametrosConfig implements OnInit {
     this.errores = {
       reservaCantidad: '',
       reservaUnidad: '',
-      bloqueoCantidad: '',
-      bloqueoUnidad: ''
+      desbloqueCantidad: '',
+      desbloqueoUnidad: ''
     };
 
     // Validar Tiempo de Reserva - Cantidad
-    // 1. Campo vacío o null
-    if (!this.tiempoReserva.cantidad && this.tiempoReserva.cantidad !== 0) {
+    if (!this.parametros.cantidadTiempoReserva && this.parametros.cantidadTiempoReserva !== 0) {
       this.errores.reservaCantidad = 'La cantidad es obligatoria';
       valido = false;
-    }
-    // 2. No es número
-    else if (isNaN(this.tiempoReserva.cantidad)) {
+    } else if (isNaN(this.parametros.cantidadTiempoReserva)) {
       this.errores.reservaCantidad = 'La cantidad debe ser un número';
       valido = false;
-    }
-    // 3. No es positivo (≤ 0)
-    else if (this.tiempoReserva.cantidad <= 0) {
+    } else if (this.parametros.cantidadTiempoReserva <= 0) {
       this.errores.reservaCantidad = 'La cantidad debe ser mayor a 0';
       valido = false;
-    }
-    // 4. Tiene decimales (no es entero)
-    else if (!Number.isInteger(this.tiempoReserva.cantidad)) {
+    } else if (!Number.isInteger(this.parametros.cantidadTiempoReserva)) {
       this.errores.reservaCantidad = 'Solo números enteros permitidos';
       valido = false;
     }
 
     // Validar Tiempo de Reserva - Unidad
-    if (!this.tiempoReserva.unidadMedida) {
+    if (!this.parametros.unidadMedidaTiempoReserva) {
       this.errores.reservaUnidad = 'Seleccione una unidad de medida';
       valido = false;
     }
 
-    // Validar Tiempo de Bloqueo - Cantidad
-    // 1. Campo vacío o null
-    if (!this.tiempoBloqueo.cantidad && this.tiempoBloqueo.cantidad !== 0) {
-      this.errores.bloqueoCantidad = 'La cantidad es obligatoria';
+    // Validar Tiempo de Desbloqueo - Cantidad
+    if (!this.parametros.cantidadTiempoDesbloqueo && this.parametros.cantidadTiempoDesbloqueo !== 0) {
+      this.errores.desbloqueCantidad = 'La cantidad es obligatoria';
       valido = false;
-    }
-    // 2. No es número
-    else if (isNaN(this.tiempoBloqueo.cantidad)) {
-      this.errores.bloqueoCantidad = 'La cantidad debe ser un número';
+    } else if (isNaN(this.parametros.cantidadTiempoDesbloqueo)) {
+      this.errores.desbloqueCantidad = 'La cantidad debe ser un número';
       valido = false;
-    }
-    // 3. No es positivo (≤ 0)
-    else if (this.tiempoBloqueo.cantidad <= 0) {
-      this.errores.bloqueoCantidad = 'La cantidad debe ser mayor a 0';
+    } else if (this.parametros.cantidadTiempoDesbloqueo <= 0) {
+      this.errores.desbloqueCantidad = 'La cantidad debe ser mayor a 0';
       valido = false;
-    }
-    // 4. Tiene decimales (no es entero)
-    else if (!Number.isInteger(this.tiempoBloqueo.cantidad)) {
-      this.errores.bloqueoCantidad = 'Solo números enteros permitidos';
+    } else if (!Number.isInteger(this.parametros.cantidadTiempoDesbloqueo)) {
+      this.errores.desbloqueCantidad = 'Solo números enteros permitidos';
       valido = false;
     }
 
-    // Validar Tiempo de Bloqueo - Unidad
-    if (!this.tiempoBloqueo.unidadMedida) {
-      this.errores.bloqueoUnidad = 'Seleccione una unidad de medida';
+    // Validar Tiempo de Desbloqueo - Unidad
+    if (!this.parametros.unidadMedidaTiempoDesbloqueo) {
+      this.errores.desbloqueoUnidad = 'Seleccione una unidad de medida';
       valido = false;
     }
 
@@ -165,8 +130,7 @@ export class ParametrosConfig implements OnInit {
 
   /**
    * Guarda la configuración de parámetros
-   * RF 1.17.5 - Registrar parámetros (POST - primera vez)
-   * RF 1.17.6 - Actualizar parámetros (PUT - actualizaciones)
+   * RF 1.17.5 - Actualizar parámetros
    */
   guardarConfiguracion(): void {
     if (!this.validarFormulario()) {
@@ -177,39 +141,19 @@ export class ParametrosConfig implements OnInit {
     this.mensajeError = '';
     this.mensajeExito = '';
 
-    // Preparar requests para ambos parámetros
-    const reservaRequest: ParametroRequest = {
-      codigo: CodigoParametro.TIEMPO_RESERVA,
-      cantidad: this.tiempoReserva.cantidad,
-      unidadMedida: this.tiempoReserva.unidadMedida
+    const request: ParametroRequest = {
+      cantidadTiempoDesbloqueo: this.parametros.cantidadTiempoDesbloqueo!,
+      unidadMedidaTiempoDesbloqueo: this.parametros.unidadMedidaTiempoDesbloqueo!,
+      cantidadTiempoReserva: this.parametros.cantidadTiempoReserva!,
+      unidadMedidaTiempoReserva: this.parametros.unidadMedidaTiempoReserva!
     };
 
-    const bloqueoRequest: ParametroRequest = {
-      codigo: CodigoParametro.TIEMPO_BLOQUEO,
-      cantidad: this.tiempoBloqueo.cantidad,
-      unidadMedida: this.tiempoBloqueo.unidadMedida
-    };
-
-    // Determinar si usar POST (registrar) o PUT (actualizar) para cada parámetro
-    const reservaOp: Observable<ParametroResponse> = this.tiempoReserva.id
-      ? this.parametrosService.actualizarParametro(this.tiempoReserva.id, reservaRequest)
-      : this.parametrosService.registrarParametro(reservaRequest);
-
-    const bloqueoOp: Observable<ParametroResponse> = this.tiempoBloqueo.id
-      ? this.parametrosService.actualizarParametro(this.tiempoBloqueo.id, bloqueoRequest)
-      : this.parametrosService.registrarParametro(bloqueoRequest);
-
-    // Ejecutar ambas operaciones en paralelo
-    forkJoin({
-      reserva: reservaOp,
-      bloqueo: bloqueoOp
-    }).subscribe({
-      next: (responses) => {
+    this.parametrosService.actualizarParametros(request).subscribe({
+      next: (response) => {
         this.guardando = false;
         this.mensajeExito = 'Configuración guardada satisfactoriamente';
-        this.cargarParametros(); // Recargar para reflejar cambios
+        this.cargarParametros();
         
-        // Limpiar mensaje después de 5 segundos
         setTimeout(() => {
           this.mensajeExito = '';
         }, 5000);
@@ -227,7 +171,6 @@ export class ParametrosConfig implements OnInit {
    */
   validarNumero(event: KeyboardEvent): boolean {
     const charCode = event.which ? event.which : event.keyCode;
-    // Solo permite números (0-9)
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       event.preventDefault();
       return false;

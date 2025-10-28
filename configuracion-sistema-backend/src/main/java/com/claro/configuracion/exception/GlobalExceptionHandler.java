@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -55,6 +56,27 @@ public class GlobalExceptionHandler {
             "El parámetro '%s' debe ser de tipo %s",
             ex.getName(),
             ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "desconocido"
+        );
+        
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponseDTO.error(message));
+    }
+    
+    /**
+     * Maneja headers faltantes (400 Bad Request)
+     * Esto es crítico para debugging cuando el interceptor del Frontend no funciona
+     */
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<ApiResponseDTO<Void>> handleMissingRequestHeader(
+            MissingRequestHeaderException ex
+    ) {
+        log.error("Header requerido faltante: {}", ex.getHeaderName());
+        log.error("Detalles: {}", ex.getMessage());
+        
+        String message = String.format(
+            "Header requerido '%s' no encontrado. Headers de trazabilidad requeridos: idApp, idCorrelacion, idMsg, idTransaccion",
+            ex.getHeaderName()
         );
         
         return ResponseEntity

@@ -1,6 +1,6 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { of, delay } from 'rxjs';
-import { Motivo, EstadoMotivo, MotivoResponse } from '../models/motivo.model';
+import { Motivo, MotivoResponse } from '../models/motivo.model';
 
 /**
  * Interceptor HTTP para simular backend RF 1.17.* 
@@ -10,34 +10,29 @@ import { Motivo, EstadoMotivo, MotivoResponse } from '../models/motivo.model';
 // Base de datos mock en memoria
 let motivosMock: Motivo[] = [
   {
-    id: 1,
-    descripcion: 'Producto defectuoso o dañado',
-    estado: EstadoMotivo.ACTIVO,
-    almacenId: 1
+    id: '1',
+    nombreMotivo: 'Producto defectuoso o dañado',
+    estadoMotivo: 'ACTIVO'
   },
   {
-    id: 2,
-    descripcion: 'No cumple con las especificaciones',
-    estado: EstadoMotivo.ACTIVO,
-    almacenId: 1
+    id: '2',
+    nombreMotivo: 'No cumple con las especificaciones',
+    estadoMotivo: 'ACTIVO'
   },
   {
-    id: 3,
-    descripcion: 'Entrega incorrecta o incompleta',
-    estado: EstadoMotivo.ACTIVO,
-    almacenId: 1
+    id: '3',
+    nombreMotivo: 'Entrega incorrecta o incompleta',
+    estadoMotivo: 'ACTIVO'
   },
   {
-    id: 4,
-    descripcion: 'Cliente cambió de opinión',
-    estado: EstadoMotivo.INACTIVO,
-    almacenId: 1
+    id: '4',
+    nombreMotivo: 'Cliente cambió de opinión',
+    estadoMotivo: 'INACTIVO'
   },
   {
-    id: 5,
-    descripcion: 'Producto vencido o próximo a vencer',
-    estado: EstadoMotivo.ACTIVO,
-    almacenId: 1
+    id: '5',
+    nombreMotivo: 'Producto vencido o próximo a vencer',
+    estadoMotivo: 'ACTIVO'
   }
 ];
 
@@ -58,24 +53,18 @@ export const motivosMockInterceptor: HttpInterceptorFn = (req, next) => {
     const params = req.params;
     let resultados = [...motivosMock];
 
-    // Filtrar por descripción (búsqueda parcial)
-    const descripcion = params.get('descripcion');
-    if (descripcion && descripcion.trim() !== '') {
+    // Filtrar por nombreMotivo (búsqueda parcial)
+    const nombreMotivo = params.get('nombreMotivo');
+    if (nombreMotivo && nombreMotivo.trim() !== '') {
       resultados = resultados.filter(m => 
-        m.descripcion.toLowerCase().includes(descripcion.toLowerCase())
+        m.nombreMotivo.toLowerCase().includes(nombreMotivo.toLowerCase())
       );
     }
 
-    // Filtrar por estado
-    const estado = params.get('estado');
-    if (estado) {
-      resultados = resultados.filter(m => m.estado === estado);
-    }
-
-    // Filtrar por almacén
-    const almacenId = params.get('almacenId');
-    if (almacenId) {
-      resultados = resultados.filter(m => m.almacenId === parseInt(almacenId));
+    // Filtrar por estadoMotivo
+    const estadoMotivo = params.get('estadoMotivo');
+    if (estadoMotivo) {
+      resultados = resultados.filter(m => m.estadoMotivo === estadoMotivo);
     }
 
     console.log(`[MOCK] Retornando ${resultados.length} motivos`, resultados);
@@ -91,15 +80,15 @@ export const motivosMockInterceptor: HttpInterceptorFn = (req, next) => {
     const nuevoMotivo = body as Motivo;
     const motivoCreado: Motivo = {
       ...nuevoMotivo,
-      id: nextId++
+      id: String(nextId++)
     };
     
     motivosMock.push(motivoCreado);
     
     const response: MotivoResponse = {
-      success: true,
-      message: 'Registro realizado satisfactoriamente',
-      data: motivoCreado
+      id: motivoCreado.id!,
+      nombreMotivo: motivoCreado.nombreMotivo,
+      estadoMotivo: motivoCreado.estadoMotivo
     };
 
     console.log('[MOCK] Motivo creado:', motivoCreado);
@@ -112,9 +101,9 @@ export const motivosMockInterceptor: HttpInterceptorFn = (req, next) => {
 
   // RF 1.17.3 - Actualizar motivo (PUT)
   if (method === 'PUT' && url.includes('/motivos/')) {
-    const idMatch = url.match(/\/motivos\/(\d+)$/);
+    const idMatch = url.match(/\/motivos\/(\w+)$/);
     if (idMatch) {
-      const id = parseInt(idMatch[1]);
+      const id = idMatch[1];
       const motivoActualizado = body as Motivo;
       
       const index = motivosMock.findIndex(m => m.id === id);
@@ -126,9 +115,9 @@ export const motivosMockInterceptor: HttpInterceptorFn = (req, next) => {
         };
         
         const response: MotivoResponse = {
-          success: true,
-          message: 'Registro realizado satisfactoriamente',
-          data: motivosMock[index]
+          id: motivosMock[index].id!,
+          nombreMotivo: motivosMock[index].nombreMotivo,
+          estadoMotivo: motivosMock[index].estadoMotivo
         };
 
         console.log('[MOCK] Motivo actualizado:', motivosMock[index]);
@@ -143,7 +132,7 @@ export const motivosMockInterceptor: HttpInterceptorFn = (req, next) => {
     // Si no se encuentra, retornar error
     return of(new HttpResponse({ 
       status: 404, 
-      body: { success: false, message: 'Motivo no encontrado' }
+      body: { message: 'Motivo no encontrado' }
     })).pipe(delay(500));
   }
 

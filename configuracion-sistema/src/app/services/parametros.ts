@@ -1,7 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Parametro, ParametroRequest, ParametroResponse, ConfiguracionParametros } from '../models/parametro.model';
+import { map } from 'rxjs/operators';
+import { Parametro, ParametroRequest, ParametroResponse } from '../models/parametro.model';
+import { environment } from '../../environments/environment';
+
+/**
+ * Estructura de respuesta del Backend según apis-configuracion-spec.md
+ */
+interface ApiResponseDTO<T> {
+  responseStatus: {
+    codigoRespuesta: number;
+    mensaje: string;
+  };
+  responseData: T;
+}
 
 /**
  * Servicio para gestión de Parámetros de Configuración
@@ -12,46 +25,29 @@ import { Parametro, ParametroRequest, ParametroResponse, ConfiguracionParametros
   providedIn: 'root'
 })
 export class ParametrosService {
-  private readonly API_URL = '/api/configuracion/parametros';
+  private readonly API_URL = `${environment.apiBaseUrl}/parametros`;
 
   constructor(private http: HttpClient) { }
 
   /**
    * RF 1.17.4 - Consultar parámetros
-   * Obtiene todos los parámetros del sistema
+   * Obtiene la configuración de parámetros del sistema
+   * GET /parametros
    */
-  consultarParametros(): Observable<Parametro[]> {
-    return this.http.get<Parametro[]>(this.API_URL);
+  consultarParametros(): Observable<Parametro> {
+    return this.http.get<ApiResponseDTO<Parametro>>(this.API_URL).pipe(
+      map(response => response.responseData)
+    );
   }
 
   /**
-   * Consulta un parámetro específico por código
+   * RF 1.17.5 - Actualizar parámetros
+   * Actualiza la configuración de parámetros
+   * PUT /parametros
    */
-  consultarParametroPorCodigo(codigo: string): Observable<Parametro> {
-    return this.http.get<Parametro>(`${this.API_URL}/${codigo}`);
-  }
-
-  /**
-   * RF 1.17.5 - Registrar parámetros
-   * Registra nuevos parámetros del sistema
-   */
-  registrarParametro(parametro: ParametroRequest): Observable<ParametroResponse> {
-    return this.http.post<ParametroResponse>(this.API_URL, parametro);
-  }
-
-  /**
-   * RF 1.17.6 - Actualizar parámetros
-   * Actualiza parámetros existentes
-   */
-  actualizarParametro(id: number, parametro: ParametroRequest): Observable<ParametroResponse> {
-    return this.http.put<ParametroResponse>(`${this.API_URL}/${id}`, parametro);
-  }
-
-  /**
-   * Guarda la configuración completa de parámetros
-   * (tiempo de reserva y tiempo de bloqueo)
-   */
-  guardarConfiguracion(config: ParametroRequest[]): Observable<ParametroResponse> {
-    return this.http.post<ParametroResponse>(`${this.API_URL}/configuracion`, config);
+  actualizarParametros(parametro: ParametroRequest): Observable<ParametroResponse> {
+    return this.http.put<ApiResponseDTO<ParametroResponse>>(this.API_URL, parametro).pipe(
+      map(response => response.responseData)
+    );
   }
 }

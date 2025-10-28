@@ -1,7 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Motivo, MotivoFiltros, MotivoRequest, MotivoResponse } from '../models/motivo.model';
+import { environment } from '../../environments/environment';
+
+/**
+ * Estructura de respuesta del Backend según apis-configuracion-spec.md
+ */
+interface ApiResponseDTO<T> {
+  responseStatus: {
+    codigoRespuesta: number;
+    mensaje: string;
+  };
+  responseData: T;
+}
 
 /**
  * Servicio para gestión de Motivos de Devolución
@@ -12,7 +25,7 @@ import { Motivo, MotivoFiltros, MotivoRequest, MotivoResponse } from '../models/
   providedIn: 'root'
 })
 export class MotivosService {
-  private readonly API_URL = '/api/configuracion/motivos';
+  private readonly API_URL = `${environment.apiBaseUrl}/motivos`;
 
   constructor(private http: HttpClient) { }
 
@@ -23,17 +36,19 @@ export class MotivosService {
   consultarMotivos(filtros: MotivoFiltros): Observable<Motivo[]> {
     let params = new HttpParams();
     
-    if (filtros.descripcion) {
-      params = params.set('descripcion', filtros.descripcion);
+    // Los parámetros ya tienen los nombres correctos: nombreMotivo y estadoMotivo
+    if (filtros.nombreMotivo) {
+      params = params.set('nombreMotivo', filtros.nombreMotivo);
     }
-    if (filtros.estado) {
-      params = params.set('estado', filtros.estado);
-    }
-    if (filtros.almacenId) {
-      params = params.set('almacenId', filtros.almacenId.toString());
+    if (filtros.estadoMotivo) {
+      params = params.set('estadoMotivo', filtros.estadoMotivo);
     }
 
-    return this.http.get<Motivo[]>(this.API_URL, { params });
+    // El Backend devuelve ApiResponseDTO<List<MotivoResponseDTO>>
+    // Necesitamos extraer responseData
+    return this.http.get<ApiResponseDTO<Motivo[]>>(this.API_URL, { params }).pipe(
+      map(response => response.responseData || [])
+    );
   }
 
   /**
@@ -41,21 +56,28 @@ export class MotivosService {
    * Registra un nuevo motivo de devolución
    */
   registrarMotivo(motivo: MotivoRequest): Observable<MotivoResponse> {
-    return this.http.post<MotivoResponse>(this.API_URL, motivo);
+    // El Backend devuelve ApiResponseDTO<MotivoResponseDTO>
+    return this.http.post<ApiResponseDTO<MotivoResponse>>(this.API_URL, motivo).pipe(
+      map(response => response.responseData)
+    );
   }
 
   /**
    * RF 1.17.3 - Actualizar motivo
    * Actualiza un motivo existente
    */
-  actualizarMotivo(id: number, motivo: MotivoRequest): Observable<MotivoResponse> {
-    return this.http.put<MotivoResponse>(`${this.API_URL}/${id}`, motivo);
+  actualizarMotivo(id: string, motivo: MotivoRequest): Observable<MotivoResponse> {
+    // El Backend devuelve ApiResponseDTO<Void> para PUT
+    // Devolvemos un observable vacío o el motivo actualizado
+    return this.http.put<ApiResponseDTO<any>>(`${this.API_URL}/${id}`, motivo).pipe(
+      map(response => motivo as any)
+    );
   }
 
   /**
    * Obtiene un motivo por ID
    */
-  obtenerMotivoPorId(id: number): Observable<Motivo> {
+  obtenerMotivoPorId(id: string): Observable<Motivo> {
     return this.http.get<Motivo>(`${this.API_URL}/${id}`);
   }
 }

@@ -14,40 +14,40 @@
       <form #formulario="ngForm">
         <!-- Descripción del motivo -->
         <div class="campo-formulario">
-          <label for="descripcion">
+          <label for="nombreMotivo">
             Descripción del motivo <span class="campo-requerido">*</span>
           </label>
           <input
             type="text"
-            id="descripcion"
-            name="descripcion"
-            [(ngModel)]="descripcion"
+            id="nombreMotivo"
+            name="nombreMotivo"
+            [(ngModel)]="nombreMotivo"
             required
             maxlength="100"
             class="input-texto"
-            [class.input-error]="errores.descripcion"
+            [class.input-error]="errores.nombreMotivo"
             placeholder="Ingrese la descripción del motivo (3-100 caracteres)"
             data-test="input-descripcion"
           />
           <div class="campo-info">
-            <span *ngIf="errores.descripcion" class="mensaje-error">
-              {{ errores.descripcion }}
+            <span *ngIf="errores.nombreMotivo" class="mensaje-error">
+              {{ errores.nombreMotivo }}
             </span>
-            <span class="contador-caracteres" [class.texto-advertencia]="descripcion.length > 90">
-              {{ descripcion.length }} / 100 caracteres
+            <span class="contador-caracteres" [class.texto-advertencia]="nombreMotivo.length > 90">
+              {{ nombreMotivo.length }} / 100 caracteres
             </span>
           </div>
         </div>
 
         <!-- Estado -->
         <div class="campo-formulario">
-          <label for="estado">
+          <label for="estadoMotivo">
             Estado <span class="campo-requerido">*</span>
           </label>
           <select
-            id="estado"
-            name="estado"
-            [(ngModel)]="estado"
+            id="estadoMotivo"
+            name="estadoMotivo"
+            [(ngModel)]="estadoMotivo"
             required
             class="input-select"
             data-test="select-estado"

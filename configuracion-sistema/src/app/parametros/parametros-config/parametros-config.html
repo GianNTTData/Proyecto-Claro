@@ -34,7 +34,7 @@
             type="number"
             id="reservaCantidad"
             name="reservaCantidad"
-            [(ngModel)]="tiempoReserva.cantidad"
+            [(ngModel)]="parametros.cantidadTiempoReserva"
             min="1"
             step="1"
             required
@@ -56,7 +56,7 @@
           <select
             id="reservaUnidad"
             name="reservaUnidad"
-            [(ngModel)]="tiempoReserva.unidadMedida"
+            [(ngModel)]="parametros.unidadMedidaTiempoReserva"
             required
             class="input-select"
             [class.input-error]="errores.reservaUnidad"
@@ -78,49 +78,49 @@
 
     <div class="separador"></div>
 
-    <!-- Tiempo de Bloqueo de Mercadería -->
+    <!-- Tiempo de Desbloqueo de Mercadería -->
     <div class="seccion-parametro">
-      <h2>Tiempo de Bloqueo de Mercadería</h2>
+      <h2>Tiempo de Desbloqueo de Mercadería</h2>
       <p class="descripcion-parametro">
-        Permite configurar la vigencia para un bloqueo de mercadería
+        Permite configurar la vigencia para un desbloqueo de mercadería
       </p>
 
       <div class="campos-grid">
         <div class="campo-formulario">
-          <label for="bloqueoCantidad">
+          <label for="desbloqueCantidad">
             Cantidad <span class="campo-requerido">*</span>
           </label>
           <input
             type="number"
-            id="bloqueoCantidad"
-            name="bloqueoCantidad"
-            [(ngModel)]="tiempoBloqueo.cantidad"
+            id="desbloqueCantidad"
+            name="desbloqueCantidad"
+            [(ngModel)]="parametros.cantidadTiempoDesbloqueo"
             min="1"
             step="1"
             required
             class="input-numero"
-            [class.input-error]="errores.bloqueoCantidad"
+            [class.input-error]="errores.desbloqueCantidad"
             (keypress)="validarNumero($event)"
             placeholder="Ingrese cantidad"
-            data-test="input-bloqueo-cantidad"
+            data-test="input-desbloqueo-cantidad"
           />
-          <span *ngIf="errores.bloqueoCantidad" class="mensaje-error">
-            {{ errores.bloqueoCantidad }}
+          <span *ngIf="errores.desbloqueCantidad" class="mensaje-error">
+            {{ errores.desbloqueCantidad }}
           </span>
         </div>
 
         <div class="campo-formulario">
-          <label for="bloqueoUnidad">
+          <label for="desbloqueoUnidad">
             Unidad de medida <span class="campo-requerido">*</span>
           </label>
           <select
-            id="bloqueoUnidad"
-            name="bloqueoUnidad"
-            [(ngModel)]="tiempoBloqueo.unidadMedida"
+            id="desbloqueoUnidad"
+            name="desbloqueoUnidad"
+            [(ngModel)]="parametros.unidadMedidaTiempoDesbloqueo"
             required
             class="input-select"
-            [class.input-error]="errores.bloqueoUnidad"
-            data-test="select-bloqueo-unidad"
+            [class.input-error]="errores.desbloqueoUnidad"
+            data-test="select-desbloqueo-unidad"
           >
             <option
               *ngFor="let unidad of unidadesMedida"
@@ -129,8 +129,8 @@
               {{ unidad.etiqueta }}
             </option>
           </select>
-          <span *ngIf="errores.bloqueoUnidad" class="mensaje-error">
-            {{ errores.bloqueoUnidad }}
+          <span *ngIf="errores.desbloqueoUnidad" class="mensaje-error">
+            {{ errores.desbloqueoUnidad }}
           </span>
         </div>
       </div>
